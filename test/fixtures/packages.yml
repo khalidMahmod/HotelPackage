@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hotel_name: MyString
+  price: 9.99
+  duration: 
+  expiry_date: 2020-06-19 22:28:28
+  description: MyText
+
+two:
+  hotel_name: MyString
+  price: 9.99
+  duration: 
+  expiry_date: 2020-06-19 22:28:28
+  description: MyText
