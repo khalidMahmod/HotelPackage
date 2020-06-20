@@ -8,32 +8,38 @@ class Body extends Component {
         super(props);
         this.state = { packages: [], createPackage: false };
         this.createNewPackage = this.createNewPackage.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
     componentDidMount() {
         fetch('/api/v1/packages.json')
             .then(response => response.json())
             .then(data => this.setState({ packages: data }));
     }
-    handleSubmit(data) {
-        var newState = this.state.packages.concat(data);
-        this.setState({ packages: newState })
+    handleSubmit = (data) => {
+        this.setState({ packages: [data, ...this.state.packages], createPackage: !this.state.createPackage })
     }
     handleDelete(id) {
-        axios.delete(`/api/v1/packages/${id}`).then(function(){
-            this.removePackage(id);
+        var that = this;
+        axios.delete(`/api/v1/packages/${id}.json`).then(function(){
+            that.removePackage(id);
         })
     }
     handleUpdate(data) {
-        axios.put(`/api/v1/packages/${data.id}`, {
-            data: { pack: data }
+        var that = this;
+        axios.put(`/api/v1/packages/${data.id}.json`, {
+            package: data
         }).then(function () {
-            this.updateItems(data);
+            that.updateItems(data);
         })
     }
     updateItems(pack) {
-        var packages = this.state.packages.filter((i) => { return i.id != pack.id });
-        packages.push(pack);
-
+        var packages = this.state.packages;
+        var index = packages.findIndex(function(c){
+            return c.id == pack.id;
+        });
+        packages[index] = pack;
         this.setState({packages: packages });
     }
     removePackage(id) {
@@ -46,13 +52,26 @@ class Body extends Component {
     createNewPackage() {
         this.setState({ createPackage: !this.state.createPackage })
     }
+    handleCancel() {
+        this.setState({ createPackage: !this.state.createPackage })
+    }
     render() {
         return (
             <div className="container">
-                { this.state.createPackage ? <NewPackage handleSubmit={this.handleSubmit} />
-                    : <button className="btn btn-primary" onClick={this.createNewPackage}>New Package</button> }
-                <AllPackages packages={this.state.packages} handleDelete={this.handleDelete}
-                             onUpdate={this.handleUpdate} />
+                <div className="page-header">
+                    <div>
+                        <h3 className="float-left lead">
+                            { this.state.createPackage ? 'Create New Package' : 'Packages List' }
+                        </h3>
+                        <div className="float-right">
+                            { this.state.createPackage ? null
+                                : <button className="btn btn-primary" onClick={this.createNewPackage} >New Package</button> }
+                        </div>
+                    </div>
+                </div>
+                { this.state.createPackage ? <NewPackage handleSubmit={this.handleSubmit} handleCancel={this.handleCancel}/>
+                : <AllPackages packages={this.state.packages} handleDelete={this.handleDelete}
+                             onUpdate={this.handleUpdate} /> }
             </div>
         );
     }

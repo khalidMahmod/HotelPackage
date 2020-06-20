@@ -1,6 +1,6 @@
 class Api::V1::PackagesController < Api::V1::BaseController
   def index
-    respond_with Package.all
+    respond_with Package.all.order(created_at: :desc)
   end
 
   def create
@@ -20,6 +20,6 @@ class Api::V1::PackagesController < Api::V1::BaseController
   private
 
   def package_params
-    params.require(:package).permit(:id, :hotel_name, :description, :price, :duration, :expiry_date)
+    params.require(:package).permit(:id, :hotel_name, :description, :price, :expiry_date, :duration => {})
   end
 end
