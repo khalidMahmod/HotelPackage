@@ -12,6 +12,7 @@ class Package extends Component {
     closeEdit() {
         this.setState({ editable: !this.state.editable })
     }
+    // Enables inline Editing
     handleEdit() {
         if(this.state.editable) {
             var id = this.props.pack.id;
@@ -36,7 +37,7 @@ class Package extends Component {
     render() {
         var hotel_name, description, price, days, nights, expiry_date;
 
-        if (this.state.editable) {
+        if (this.state.editable) { // Inline Editing
             hotel_name = <input type='text' ref='hotel_name' defaultValue={this.props.pack.hotel_name} className="form-control" />
             description = <textarea type='text' ref='description' defaultValue={this.props.pack.description} className="form-control" />
             price = <input type='number' ref='price' defaultValue={this.props.pack.price} className="form-control" />

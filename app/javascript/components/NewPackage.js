@@ -8,6 +8,7 @@ class NewPackage extends Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
+    // POST new package
     handleClick(e) {
         e.preventDefault();
         var hotel_name = this.refs.hotel_name.value;
@@ -33,6 +34,7 @@ class NewPackage extends Component {
             that.props.handleSubmit(response.data);
         })
     }
+    // Calls handleCancel() in Body.js
     handleCancel() {
         this.props.handleCancel();
     }

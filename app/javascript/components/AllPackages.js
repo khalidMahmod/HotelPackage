@@ -7,9 +7,11 @@ class AllPackages extends Component {
         this.state = { editable: false };
         this.onUpdate = this.onUpdate.bind(this);
     }
+    // Calls handleDelete(id) in Body.js
     handleDelete(id) {
         this.props.handleDelete(id);
     }
+    // Calls onUpdate(pack) in Body.js
     onUpdate(pack) {
         this.props.onUpdate(pack);
     }

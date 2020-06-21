@@ -12,20 +12,24 @@ class Body extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
     }
+    // GET packages
     componentDidMount() {
         fetch('/api/v1/packages.json')
             .then(response => response.json())
             .then(data => this.setState({ packages: data }));
     }
+    // Append to existing packages after creating a new package
     handleSubmit = (data) => {
         this.setState({ packages: [data, ...this.state.packages], createPackage: !this.state.createPackage })
     }
+    // DELETE package
     handleDelete(id) {
         var that = this;
         axios.delete(`/api/v1/packages/${id}.json`).then(function(){
-            that.removePackage(id);
+            that.removePackage(id); // This removes the package from the list
         })
     }
+    // UPDATE package
     handleUpdate(data) {
         var that = this;
         axios.put(`/api/v1/packages/${data.id}.json`, {
@@ -34,6 +38,7 @@ class Body extends Component {
             that.updateItems(data);
         })
     }
+    // Update the package in the packages list
     updateItems(pack) {
         var packages = this.state.packages;
         var index = packages.findIndex(function(c){
@@ -42,6 +47,7 @@ class Body extends Component {
         packages[index] = pack;
         this.setState({packages: packages });
     }
+    // Removes the package from the packages list
     removePackage(id) {
         var newPackages = this.state.packages.filter((pack) => {
             return pack.id != id;
@@ -49,9 +55,11 @@ class Body extends Component {
 
         this.setState({ packages: newPackages });
     }
+    // When NEW PACKAGE button is clicked
     createNewPackage() {
         this.setState({ createPackage: !this.state.createPackage })
     }
+    // When CANCEL button is clicked
     handleCancel() {
         this.setState({ createPackage: !this.state.createPackage })
     }
