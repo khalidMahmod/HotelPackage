@@ -31,7 +31,7 @@ gem install bundler
 # install gem dependencies
 bundle install
 
-# install npm dependencies
+# install dependencies
 yarn install
 
 # create the sqlite databases and populate with seed data
